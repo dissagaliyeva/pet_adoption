@@ -1,0 +1,32 @@
+name: Get clean data 
+
+on:
+  workflow_dispatch:  
+#   schedule:
+    # - cron: '0 * * * *'  
+
+jobs:
+  trigger-public-workflow:
+    runs-on: ubuntu-latest
+
+    permissions:
+        contents: write  
+        packages: write  
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Python dependencies
+        run: pip install pandas requests lxml selenium argparse
+
+      - name: Scrape data
+        run: |
+            echo "Scraping data and generating CSV..."
+            python /home/runner/work/pet_adoption/pet_adoption/main.py \
+                        --pet "Cat" --location "Washington DC" --n_pets "100"
